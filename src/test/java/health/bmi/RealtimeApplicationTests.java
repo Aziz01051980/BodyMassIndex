@@ -1,4 +1,4 @@
-package myforexhelp.realtime;
+package health.bmi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

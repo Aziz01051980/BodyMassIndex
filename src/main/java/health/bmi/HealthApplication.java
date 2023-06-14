@@ -1,4 +1,4 @@
-package myforexhelp.realtime;
+package health.bmi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,11 +10,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableAutoConfiguration
 @ComponentScan
 @EnableJpaRepositories
-public class RealtimeApplication {
+public class HealthApplication {
 
 	public static void main(String[] args)
 	{
-		SpringApplication.run(RealtimeApplication.class, args);
+		SpringApplication.run(HealthApplication.class, args);
 		System.out.println("Application is running");
 	}
 }

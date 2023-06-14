@@ -1,4 +1,4 @@
-package myforexhelp.realtime.Controller;
+package health.bmi.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
