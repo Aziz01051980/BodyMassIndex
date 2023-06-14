@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:margin-top="http://www.w3.org/1999/xhtml">
+<body>
+
+<br>Dear user,
+We introduce you a calculator, for calculating your body mass index. You just need to add your height and weight and we will calculate it for you.</br>
+<br>Please enter decimal data by point (0.0).</br>
+<form>
+  <label for="yourName">Enter your name please:</label><br>
+  <input type="text" id="yourName" name="yourName" value=""><br>
+  <label for="yourWeight">Enter your weight please:</label><br>
+  <input type="text" id="yourWeight" name="yourWeight" value=""><br>
+  <label for="yourHeight">Enter your height please:</label><br>
+  <input type="" id="yourHeight" name="yourHeight" value=""><br>
+  <input type="button" onclick="toCalculate()" value="Submit">
+</form>
+<p id="result"></p>
+</body>
+<script>
+    function toCalculate() {
+        let weight = document.getElementById("yourWeight").value;
+        let height = document.getElementById("yourHeight").value;
+        let name = document.getElementById("yourName").value;
+        let bmi = weight / (height * height);
+        if (isNaN(bmi)) {
+            document.getElementById("result").innerHTML = "Please enter data in appropriate format";
+        } else {
+        if (bmi < 18.5) {
+            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in underweight range";
+        } else if (bmi > 18.5 && bmi < 25) {
+            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You have helthy weight";
+        } else if (bmi > 25 && bmi < 31) {
+            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in overweight range";
+        } else {
+            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in obersity range";
+        }
+     }
+ };
+</script>
+</html>
