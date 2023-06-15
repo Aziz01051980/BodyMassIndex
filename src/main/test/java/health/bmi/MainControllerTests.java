@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = MainController.class)
 @AutoConfigureMockMvc
 class MainControllerTests {
