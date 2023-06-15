@@ -1,7 +1,6 @@
-package health.bmi.Controller;
+package health.bmi.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 
 
-    @RequestMapping(value = "/bmiIndex", method = RequestMethod.GET)
+    @RequestMapping(value = "/bmi", method = RequestMethod.GET)
     public String getCalculator(){
         return "bmiIndex";
     }
