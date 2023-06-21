@@ -12,29 +12,49 @@ We introduce you a calculator, for calculating your body mass index. You just ne
   <input type="text" id="yourWeight" name="yourWeight" value=""><br>
   <label for="yourHeight">Enter your height please:</label><br>
   <input type="" id="yourHeight" name="yourHeight" value=""><br>
+  <label for="yourMail">Enter your mail, if you want get mail about youw BMI:</label><br>
+  <input type="" id="yourMail" name="yourMail" value=""><br>
   <input type="button" onclick="toCalculate()" value="Submit">
 </form>
 <p id="result"></p>
 </body>
 <script>
-    function toCalculate() {
-        let weight = document.getElementById("yourWeight").value;
-        let height = document.getElementById("yourHeight").value;
-        let name = document.getElementById("yourName").value;
-        let bmi = weight / (height * height);
-        if (isNaN(bmi)) {
-            document.getElementById("result").innerHTML = "Please enter data in appropriate format";
-        } else {
-        if (bmi < 18.5) {
-            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in underweight range";
-        } else if (bmi > 18.5 && bmi < 25) {
-            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You have helthy weight";
-        } else if (bmi > 25 && bmi < 31) {
-            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in overweight range";
-        } else {
-            document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in obersity range";
-        }
-     }
- };
+function toCalculate() {
+  let weight = document.getElementById("yourWeight").value;
+  let height = document.getElementById("yourHeight").value;
+  let name = document.getElementById("yourName").value;
+  let mail = document.getElementById("yourMail").value;
+  if (mail == null) {
+    if (isNaN(weight) || isNaN(height) || typeof name !== 'string' || typeof mail !== 'string') {
+      document.getElementById("result").innerHTML = "Please enter data in the appropriate format";
+    } else {
+      if (bmi < 18.5) {
+        document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in the underweight range";
+      } else if (bmi > 18.5 && bmi < 25) {
+        document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You have a healthy weight";
+      } else if (bmi > 25 && bmi < 31) {
+        document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in the overweight range";
+      } else {
+        document.getElementById("result").innerHTML = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in the obesity range";
+      }
+    }
+  } else {
+  if (isNaN(weight) || isNaN(height) || typeof name !== 'string' || typeof mail !== 'string') {
+      document.getElementById("result").innerHTML = "Please enter data in the appropriate format";
+    } else {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("result").innerHTML =
+          this.responseText;
+      }
+    };
+    let url = "http://localhost:8082/sendEmail?weight=" + encodeURIComponent(weight) + "&name=" + encodeURIComponent(name)
+    + "&height=" + encodeURIComponent(height)+ "&mail=" + encodeURIComponent(mail);
+    xhttp.open("GET", url);
+    xhttp.send();
+    }
+  }
+}
 </script>
 </html>
