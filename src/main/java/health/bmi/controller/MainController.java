@@ -12,7 +12,6 @@ public class MainController {
 
     public MainController(BmiSendingService bmiSendingService) {
         this.bmiSendingService = bmiSendingService;
-
     }
 
     public void setBmiSendingService(BmiSendingService bmiSendingService) {
@@ -26,14 +25,22 @@ public class MainController {
 
     @RequestMapping(value = "/sendEmail")
     @ResponseBody
-    public double sendMail (
+    public String sendMail (
             @RequestParam("weight") double yourWeight,
             @RequestParam("height") double yourHeight,
             @RequestParam("name") String yourName,
             @RequestParam("mail") String yourMail
     ) {
         double bmi = yourWeight / (yourHeight * yourHeight);
-        bmiSendingService.sendingMessage(yourMail, bmi, yourName);
-        return bmi;
+        bmiSendingService.sendingMessage(yourMail, bmi, yourName, yourWeight, yourHeight);
+        return null;
+    }
+
+    @RequestMapping(value = "/getBmi")
+    @ResponseBody
+    public Object getBmi (
+            @RequestParam("nameForBmi") String yourName
+    ) {
+        return bmiSendingService.getBmiByName(yourName);
     }
 }

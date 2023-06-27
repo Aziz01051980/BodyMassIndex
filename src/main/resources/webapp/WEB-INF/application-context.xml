@@ -1,16 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="mainController" class="health.bmi.controller.MainController" />
-    <bean id="bmiSendingService" class="health.bmi.service.BmiSendingService">
-        <constructor-arg ref="mailSender" />
-    </bean>
+    <bean id="bmiData" class="health.bmi.domain.BmiData" />
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <!-- Configure the necessary properties for your mail sender -->
+        <!-- If, it is necessary configure properties for your mail sender -->
+    </bean>
+
+    <bean id="bmiDataRepository" class="health.bmi.repository.NewBmiDataRepository" />
+
+    <bean id="bmiSendingService" class="health.bmi.service.BmiSendingService">
+        <constructor-arg ref="mailSender" />
+        <constructor-arg ref="bmiData" />
+        <constructor-arg ref="bmiDataRepository" />
+    </bean>
+
+    <bean id="mainController" class="health.bmi.controller.MainController" />
+    <bean id="mainControllerTests" class="health.bmi.MainControllerTests">
+        <constructor-arg ref="mainController" />
+        <constructor-arg ref="bmiSendingService" />
+        <constructor-arg ref="bmiDataRepository" />
     </bean>
 </beans>
+

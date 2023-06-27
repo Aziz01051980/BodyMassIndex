@@ -1,27 +1,33 @@
 package health.bmi.service;
 
+import health.bmi.domain.BmiData;
+import health.bmi.repository.BmiDataRepository;
+import health.bmi.repository.NewBmiDataRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 public class BmiSendingService {
+
+//    @Autowired
+//    private BmiData bmiData;
+
+    private BmiDataRepository bmiDataRepository;
+
     private JavaMailSender mailSender;
 
-    public BmiSendingService(JavaMailSender mailSender) {
+    private BmiData bmiData;
+
+    public BmiSendingService(JavaMailSender mailSender, BmiData bmiData, BmiDataRepository bmiDataRepository) {
         this.mailSender = mailSender;
+        this.bmiData = bmiData;
+        this.bmiDataRepository = bmiDataRepository;
     }
 
-    public void setMailSender(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void sendingMessage(String mail, double bmi, String name){
+    public void sendingMessage(String mail, double bmi, String name, double weight, double height){
 
         String body = null;
 
@@ -34,16 +40,32 @@ public class BmiSendingService {
         } else {
             body = "Dear " + name + ", According to the given data, your body mass index is " + bmi + ". You are in the obesity range";
         }
+
+        BmiData bmiData = new BmiData();
+        bmiData.setPersonBMI(bmi);
+        bmiData.setPersonName(name);
+        bmiData.setPersonMail(mail);
+        bmiData.setPersonWeight(weight);
+        bmiData.setPersonHeight(height);
+        bmiDataRepository.save(bmiData);
+
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(mail);
-            mailMessage.setSubject("Body Mass IndexInformation");
             mailMessage.setText(body);
-            mailMessage.setBcc("aziz.khalilov1980@gmail.com");
             mailSender.send(mailMessage);
         }
         catch (Exception e){
             System.out.println("An error occur");
+        }
+    }
+
+    public String getBmiByName(String yourName) {
+        try {
+            double bmi = bmiDataRepository.getBmiBypersonName(yourName);
+            return "Your last last Bodu Mass Index was " + bmi;
+        } catch (Exception e){
+            return "An error occur, check your input again";
         }
     }
 }

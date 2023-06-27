@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:margin-top="http://www.w3.org/1999/xhtml">
+<head>
+
+</head>
+<style>
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form {
+    width: 45%; /* Adjust the width as needed */
+  }
+</style>
+<br>Dear user,
+We introduce you a calculator, for calculating your body mass index. </br>
+<br>You just need to add your height and weight and we will calculate it for you.</br>
+<br>Please enter decimal data by point (0.0).</br>
+<div class="container">
+  <div class="form">
+    <form>
+      <label for="yourName">Enter your name please:</label><br>
+      <input type="text" id="yourName" name="yourName" value=""><br>
+      <label for="yourWeight">Enter your weight please:</label><br>
+      <input type="text" id="yourWeight" name="yourWeight" value=""><br>
+      <label for="yourHeight">Enter your height please:</label><br>
+      <input type="" id="yourHeight" name="yourHeight" value=""><br>
+      <label for="yourMail">Enter your mail, if you want get mail about youw BMI:</label><br>
+      <input type="" id="yourMail" name="yourMail" value=""><br>
+      <input type="button" onclick="toCalculate()" value="Submit">
+    </form>
+  </div>
+
+
+  <div class="form">
+    <br>If you want to get your last record click below.</br>
+    <form>
+      <!-- Second form content -->
+      <label for="yourNameForBmi">Enter your name please:</label><br>
+      <input type="" id="yourNameForBmi" name="yourNameForBmi" value=""><br>
+      <input type="button" onclick="returnBmi()" value="Click for BMI">
+    </form>
+  </div>
+</div>
 <body>
 
-<br>Dear user,
-We introduce you a calculator, for calculating your body mass index. You just need to add your height and weight and we will calculate it for you.</br>
-<br>Please enter decimal data by point (0.0).</br>
-<form>
-  <label for="yourName">Enter your name please:</label><br>
-  <input type="text" id="yourName" name="yourName" value=""><br>
-  <label for="yourWeight">Enter your weight please:</label><br>
-  <input type="text" id="yourWeight" name="yourWeight" value=""><br>
-  <label for="yourHeight">Enter your height please:</label><br>
-  <input type="" id="yourHeight" name="yourHeight" value=""><br>
-  <label for="yourMail">Enter your mail, if you want get mail about youw BMI:</label><br>
-  <input type="" id="yourMail" name="yourMail" value=""><br>
-  <input type="button" onclick="toCalculate()" value="Submit">
-</form>
+
 <p id="result"></p>
 </body>
 <script>
@@ -24,7 +54,8 @@ function toCalculate() {
   let height = document.getElementById("yourHeight").value;
   let name = document.getElementById("yourName").value;
   let mail = document.getElementById("yourMail").value;
-  if (mail == null) {
+  let bmi = weight / (height * height);
+  if (mail == "") {
     if (isNaN(weight) || isNaN(height) || typeof name !== 'string' || typeof mail !== 'string') {
       document.getElementById("result").innerHTML = "Please enter data in the appropriate format";
     } else {
@@ -56,5 +87,20 @@ function toCalculate() {
     }
   }
 }
+</script>
+<script>
+  function returnBmi(){
+  let nameForBmi = document.getElementById("yourNameForBmi").value;
+  const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("result").innerHTML =
+          this.responseText;
+      }
+    };
+    let url = "http://localhost:8082/getBmi?nameForBmi=" + encodeURIComponent(nameForBmi);
+    xhttp.open("GET", url);
+    xhttp.send();
+  }
 </script>
 </html>
